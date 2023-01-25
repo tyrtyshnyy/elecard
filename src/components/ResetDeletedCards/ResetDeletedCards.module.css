@@ -1,0 +1,13 @@
+.reset {
+    position: fixed;
+    bottom: 80px;
+    left: 20px
+}
+
+.reset button {
+    color: white;
+    padding: 10px 20px;
+    border: 70%;
+    
+    background-color: rgb(111, 100, 100);
+}
