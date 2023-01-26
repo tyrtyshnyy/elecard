@@ -1,34 +1,35 @@
-import { useEffect, useState } from 'react';
-import { getAllCatalog } from './api/api';
-import { CatalogResults } from './api/types';
-import './App.css';
-import { Cards, LoadingSpinner } from './components';
-import { Layout } from './layouts/Layout';
+import { Fragment, useState } from "react";
+import { Cards } from "./components";
+import { Layout } from "./layouts/Layout";
 
+import styles from './App.module.css';
 
+const viewType = [
+  { id: 1, title: "Карточки" },
+  { id: 2, title: "Древовидный список" },
+];
 function App() {
-  const [catalog, setCatalog] = useState<CatalogResults[] >([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-
-  useEffect(() => {
-    setIsLoading(true)
-    getAllCatalog().then((res) => {
-      
-      setCatalog(res)
-      setIsLoading(false)
-    }).catch(() =>{
-      console.log("Error");
-      setIsLoading(false)
-      
-    })
-  }, []);
+  const [selectView, setSelectView] = useState<number>(1);
 
   return (
     <Layout>
-        {isLoading ? <LoadingSpinner/> :  <Cards catalog={catalog}/>}
-        
+      <div className={styles.selectView}>
+      {viewType.map((el) => {
+        return (
+          <Fragment key={el.id}>
+            <input
+              type="radio"
+              onChange={() => setSelectView(el.id)}
+              checked={selectView === el.id}
+            />
+            <label>{el.title}</label>
+          </Fragment>
+        );
+      })}
+      </div>
+      {selectView === 1 ? ( <Cards /> ) : '' }
     </Layout>
-  )
+  );
 }
 
-export default App
+export default App;

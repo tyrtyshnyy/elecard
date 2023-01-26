@@ -9,5 +9,10 @@
     width: 100vw;
     opacity: .8;
 
-    text-align: center;
+    
+}
+
+.headerTitle {
+    margin-left: 40px;
+    
 }

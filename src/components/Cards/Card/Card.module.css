@@ -62,9 +62,21 @@ img {
   border-radius: 9px;
 }
 
-.cardDate {
+/* .cardDate {
   margin: 0;
   display: flex;
   justify-content: end;
   padding: 14px 10px 0 0;
+} */
+
+.cardInfo {
+  padding: 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
+.cardDateSize{
+  font-size: 12px;
+}
+

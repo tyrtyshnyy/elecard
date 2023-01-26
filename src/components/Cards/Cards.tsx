@@ -1,22 +1,23 @@
-import { FC, useLayoutEffect, useState } from "react";
-import { CatalogResults } from "../../api/types";
-import ResetDeletedCards from "../ResetDeletedCards/ResetDeletedCards";
+import { FC, useLayoutEffect } from "react";
+import { LoadingSpinner, ResetDeletedCards, Sorting } from "../../components";
+import useFetch from "../../hooks/useFetch";
+import { CatalogResults } from "../../types";
+
 import { Card } from "./Card/Card";
 import styles from "./Cards.module.css";
 
-type CardsProps = {
-  catalog: CatalogResults[];
-};
 
-const Cards: FC<CardsProps> = ({ catalog }) => {
-  const [cards, setCards] = useState<CatalogResults[]>(catalog);
+const Cards: FC = () => {
+  const { data, setData, isLoading, hasError } = useFetch<CatalogResults[]>(
+    "http://contest.elecard.ru/frontend_data/catalog.json"
+  );
 
   useLayoutEffect(() => {
     const removeDB: string[] = JSON.parse(
       localStorage.getItem("cards") || "[]"
     );
     removeDB.forEach((img) =>
-      setCards((prev) => prev.filter((card) => card.image !== img))
+    setData((prev) => [...prev].filter((card) => card.image !== img))
     );
   }, []);
 
@@ -24,30 +25,34 @@ const Cards: FC<CardsProps> = ({ catalog }) => {
     const removeDB: string[] = JSON.parse(
       localStorage.getItem("cards") || "[]"
     );
-    setCards((prev) => prev.filter((card) => card.image !== image));
+    setData((prev) => [...prev].filter((card) => card.image !== image));
 
     localStorage.setItem("cards", JSON.stringify([...removeDB, image]));
   };
 
-  // обработка ошибки
-  // подумать про ленивую обработку загрузки фото при скроле
-  //функцию прокидываем в card и вызываем ее при клике на крестик ez
-  console.log();
+  if(hasError) {
+    return <h2>Произошла ошибка, попробуйте позже</h2>
+  }
 
-  return (
+  return !isLoading ? (
     <>
-      <ResetDeletedCards />
+      <Sorting setCards={setData}/>
       <div className={styles.cards}>
-        {cards.map(({ image, timestamp }) => (
+        {data.map(({ image, timestamp, filesize, category }) => (
           <Card
             key={image}
-            imageLink={image}
+            image={image}
             timestamp={timestamp}
             handleCloseCard={handleCloseCard}
+            filesize={filesize}
+            category={category}
           />
         ))}
+        <ResetDeletedCards />
       </div>
     </>
+  ) : (
+    <LoadingSpinner />
   );
 };
 
