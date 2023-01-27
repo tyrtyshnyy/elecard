@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 const useFetch = <T>(url: string) => {
   const [data, setData] = useState<T | never[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasError, setHasError] = useState<boolean>(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {

@@ -1,44 +1,71 @@
-import { FC, useLayoutEffect } from "react";
-import { LoadingSpinner, ResetDeletedCards, Sorting } from "../../components";
+import { FC, useCallback, useEffect, useLayoutEffect, useState } from "react";
+import {
+  LoadingSpinner,
+  Pagination,
+  ResetDeletedCards,
+  Sorting
+} from "../../components";
 import useFetch from "../../hooks/useFetch";
 import { CatalogResults } from "../../types";
 
 import { Card } from "./Card/Card";
 import styles from "./Cards.module.css";
 
-
 const Cards: FC = () => {
   const { data, setData, isLoading, hasError } = useFetch<CatalogResults[]>(
     "http://contest.elecard.ru/frontend_data/catalog.json"
   );
+  const [isSort, setIsSort] = useState(false);
+  const [cards, setCards] = useState<CatalogResults[]>([]);
 
+ 
+  // console.log(cards);
+  useEffect(() => {
+    setCards(data);
+  }, [data]);
+  
   useLayoutEffect(() => {
     const removeDB: string[] = JSON.parse(
       localStorage.getItem("cards") || "[]"
     );
-    removeDB.forEach((img) =>
-    setData((prev) => [...prev].filter((card) => card.image !== img))
+
+    
+    removeDB.forEach((img) =>{
+      setData((prev) => [...prev].filter((card) => card.image !== img))
+      console.log('del')
+    }
+      
     );
   }, []);
-
-  const handleCloseCard = (image: string) => {
+  console.log(cards);
+  const handleCloseCard = useCallback((image: string) => {
     const removeDB: string[] = JSON.parse(
       localStorage.getItem("cards") || "[]"
     );
-    setData((prev) => [...prev].filter((card) => card.image !== image));
+
+    setCards((prev) => [...prev].filter((card) => card.image !== image));
 
     localStorage.setItem("cards", JSON.stringify([...removeDB, image]));
-  };
-
-  if(hasError) {
-    return <h2>Произошла ошибка, попробуйте позже</h2>
+  }, []);
+  
+  if (hasError || !data) {
+    return <h2>Произошла ошибка, попробуйте позже</h2>;
   }
 
   return !isLoading ? (
     <>
-      <Sorting setCards={setData}/>
+      <div className={styles.cardsBlock}>
+        <Sorting setCards={setData} setIsSort={setIsSort} />
+        <Pagination
+          setSelectPage={setCards}
+          cards={data}
+          isSort={isSort}
+          setIsSort={setIsSort}
+        />
+      </div>
+
       <div className={styles.cards}>
-        {data.map(({ image, timestamp, filesize, category }) => (
+        {cards.map(({ image, timestamp, filesize, category }) => (
           <Card
             key={image}
             image={image}

@@ -1,7 +1,7 @@
 {
   "name": "elecard",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "homepage": "https://tyrtyshnyy.github.io/elecard",
   "scripts": {
@@ -9,7 +9,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^18.2.0",

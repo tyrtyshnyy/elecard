@@ -1,0 +1,17 @@
+.pages {
+
+}
+
+.page, .pageCurrent {
+    border: 1px solid lightgray;
+    border-radius: 100%;
+    padding: 4px 9px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.pageCurrent {
+    border: 2px solid gray;
+    font-weight: 700;
+    background-color: gray;
+}
