@@ -9,4 +9,12 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 30px;
+    
+    margin-bottom: 100px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
 }

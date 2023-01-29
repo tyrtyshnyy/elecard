@@ -2,7 +2,8 @@ import useFetch from "../../hooks/useFetch";
 import { CatalogResults } from "../../types";
 import { TreeNode } from "./TreeNode/TreeNode";
 
-import styles from './Tree.module.css';
+import { LoadingSpinner } from "../";
+import styles from "./Tree.module.css";
 const Tree = () => {
   const {
     data: treeData,
@@ -12,23 +13,27 @@ const Tree = () => {
     "http://contest.elecard.ru/frontend_data/catalog.json"
   );
 
-    
+  
+//@ts-ignore
+  const hashCategories = treeData.reduce((acc, cur: CatalogResults) => {
+    acc[cur.category] = acc[cur.category] ? acc[cur.category] + 1 : 1;
+    return acc;
+  }, {} as any);
 
-  const categories = treeData.map(node => node.category)
-
-  const hashCategories = categories.reduce((acc,cur: string) => {
-    //@ts-ignore
-    acc[cur] = acc[cur] ? acc[cur] + 1: 1
-    return acc
-},{})
-
+  if (hasError) {
+    return <h2>Произошла ошибка, попробуйте позже</h2>;
+  }
   return (
     <div className={styles.tree}>
-        <p>Категории</p>
-        
-      {Object.keys(hashCategories).map((category: any, index) => (
-        <TreeNode category={category} key={index} treeData={treeData} />
-      ))}
+      <p>Категории</p>
+
+      {!isLoading ? (
+        Object.keys(hashCategories).map((category: any, index) => (
+          <TreeNode category={category} key={index} treeData={treeData} />
+        ))
+      ) : (
+        <LoadingSpinner />
+      )}
     </div>
   );
 };

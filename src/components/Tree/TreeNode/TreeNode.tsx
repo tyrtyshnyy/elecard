@@ -19,12 +19,10 @@ const TreeNode: FC<TreeNodeProps> = ({ category, treeData }) => {
     )
     .filter((item) => item);
 
-
   const hashCategories = categoryItems.reduce((acc, cur: string) => {
-    //@ts-ignore
     acc[cur] = acc[cur] ? acc[cur] + 1 : 1;
     return acc;
-  }, {});
+  }, {} as any);
 
   return (
     <div>

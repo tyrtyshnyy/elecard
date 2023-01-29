@@ -1,39 +1,31 @@
 import { FC } from "react";
 import { CatalogResults } from "../../../types";
+import { TreeInfo } from "../TreeInfo/TreeInfo";
 
 type TreeNameProps = {
   item: string;
   treeData: CatalogResults[];
 };
 
-const TreeName: FC<TreeNameProps> = ({ item, treeData }) => {
-  const nameFile = treeData
-    .map((data, index) =>
+const TreeName: FC<TreeNameProps> = ({ item, treeData}) => {
+  const nameFile = treeData.filter((data, index) => {
+    if (
       data.image.slice(
         data.image.indexOf("/") + 1,
         data.image.lastIndexOf("-")
       ) === item
-        ? data.image.slice(
-            data.image.lastIndexOf("-") + 1,
-            data.image.indexOf("_")
-          )
-        : ""
-    )
-    .filter((item) => item);
-
-  console.log(nameFile);
+    ) {
+      return data;
+    }
+  });
 
   return (
     <div>
       <details>
         <summary>{item}</summary>
-        {nameFile.map((name, index) => {
-          return (<div key={index}>
-            <details>
-              <summary>{name}</summary>
-            </details>
-          </div>
-        )})}
+        {nameFile.map((data, index) => (
+          <TreeInfo key={index} data={data} />
+        ))}
       </details>
     </div>
   );

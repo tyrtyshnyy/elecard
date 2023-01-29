@@ -56,12 +56,7 @@ const Cards: FC = () => {
     <>
       <div className={styles.cardsBlock}>
         <Sorting setCards={setData} setIsSort={setIsSort} />
-        <Pagination
-          setSelectPage={setCards}
-          cards={data}
-          isSort={isSort}
-          setIsSort={setIsSort}
-        />
+        
       </div>
 
       <div className={styles.cards}>
@@ -76,6 +71,14 @@ const Cards: FC = () => {
           />
         ))}
         <ResetDeletedCards />
+      </div>
+      <div className={styles.pagination}>
+      <Pagination
+          setSelectPage={setCards}
+          cards={data}
+          isSort={isSort}
+          setIsSort={setIsSort}
+        />
       </div>
     </>
   ) : (
