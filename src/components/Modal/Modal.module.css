@@ -63,7 +63,7 @@
     transform: rotate(-45deg);
   }
   
-  button {
+  span {
     border-radius: 8px;
     border: 1px solid transparent;
     background-color: #c5c1c1;
@@ -71,6 +71,6 @@
     cursor: pointer;
     transition: border-color 0.25s;
   }
-  button:hover {
+  span:hover {
     opacity: 1;
   }

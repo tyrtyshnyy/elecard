@@ -21,35 +21,39 @@ type SortingProps = {
 const Sorting: FC<SortingProps> = ({ setCards, setIsSort }) => {
   const [activeRadio, setActiveRadio] = useState<number>(1);
 
-
   const sortByCategory = useCallback(() => {
     setCards((prev) =>
       [...prev].sort((a, b) => a.category.localeCompare(b.category))
-     
     );
-    
   }, []);
-  
+
   const sortByTimestamp = useCallback(() => {
     setCards((prev) => [...prev].sort((a, b) => a.timestamp - b.timestamp));
   }, []);
 
-  const sortByName = useCallback(() => {}, []);
+  const sortByName = useCallback(() => {
+    setCards((prev) =>
+      [...prev].sort((a, b) =>
+        a.image
+          .slice(a.image.indexOf("/"))
+          .localeCompare(b.image.slice(a.image.indexOf("/")))
+      )
+    );
+  }, []);
 
   const sortBySize = useCallback(() => {
     setCards((prev) => [...prev].sort((a, b) => a.filesize - b.filesize));
-  
   }, []);
 
   useEffect(() => {
     switch (activeRadio) {
       case 1:
         sortByCategory();
-        setIsSort(true)
+        // setIsSort(true);
         break;
       case 2:
         sortByTimestamp();
-        setIsSort(true)
+        // setIsSort(true);
         break;
       case 3:
         sortByName();
@@ -57,13 +61,11 @@ const Sorting: FC<SortingProps> = ({ setCards, setIsSort }) => {
 
       case 4:
         sortBySize();
-        setIsSort(true)
+        // setIsSort(true);
         break;
       default:
         break;
     }
-    
-    
   }, [activeRadio]);
 
   return (
@@ -83,6 +85,7 @@ const Sorting: FC<SortingProps> = ({ setCards, setIsSort }) => {
           );
         })}
       </div>
+
     </div>
   );
 };

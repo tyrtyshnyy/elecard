@@ -18,24 +18,20 @@ const Cards: FC = () => {
   const [isSort, setIsSort] = useState(false);
   const [cards, setCards] = useState<CatalogResults[]>([]);
 
- 
   // console.log(cards);
   useEffect(() => {
     setCards(data);
-  }, [data]);
-  
+  }, []);
+
   useLayoutEffect(() => {
     const removeDB: string[] = JSON.parse(
       localStorage.getItem("cards") || "[]"
     );
 
-    
-    removeDB.forEach((img) =>{
-      setData((prev) => [...prev].filter((card) => card.image !== img))
-      console.log('del')
-    }
-      
-    );
+    removeDB.forEach((img) => {
+      setData((prev) => [...prev].filter((card) => card.image !== img));
+      console.log("del");
+    });
   }, []);
   console.log(cards);
   const handleCloseCard = useCallback((image: string) => {
@@ -47,7 +43,7 @@ const Cards: FC = () => {
 
     localStorage.setItem("cards", JSON.stringify([...removeDB, image]));
   }, []);
-  
+
   if (hasError || !data) {
     return <h2>Произошла ошибка, попробуйте позже</h2>;
   }
@@ -56,7 +52,6 @@ const Cards: FC = () => {
     <>
       <div className={styles.cardsBlock}>
         <Sorting setCards={setData} setIsSort={setIsSort} />
-        
       </div>
 
       <div className={styles.cards}>
@@ -73,7 +68,7 @@ const Cards: FC = () => {
         <ResetDeletedCards />
       </div>
       <div className={styles.pagination}>
-      <Pagination
+        <Pagination
           setSelectPage={setCards}
           cards={data}
           isSort={isSort}

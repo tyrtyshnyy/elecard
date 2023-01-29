@@ -1,5 +1,6 @@
 import { Dispatch, FC, SetStateAction } from "react";
 import { createPortal } from "react-dom";
+import { CloseButton } from '../';
 import styles from "./Modal.module.css";
 
 type ModalProps = {
@@ -15,10 +16,10 @@ const Modal: FC<ModalProps> = ({ active, setActive, linkImg }) => {
       onClick={() => setActive(false)}
     >
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <button
+        <CloseButton
           onClick={() => setActive(false)}
           className={styles.modalClose}
-        ></button>
+        />
         <img src={linkImg} alt="photo" />
       </div>
     </div>,
