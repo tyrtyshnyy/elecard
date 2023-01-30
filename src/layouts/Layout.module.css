@@ -1,8 +1,9 @@
+.container {
+    min-width: 320px;
+}
+
 .main {
     padding: 130px 30px;
-   
-   
-    min-width: 320px;
     position: relative;
 
 }

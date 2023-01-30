@@ -23,6 +23,7 @@ const Pagination: FC<PaginationProps> = ({
   const pages: number[] = [];
   createPages(pages, pagesCount, currentPage);
 
+
   useEffect(() => {
     const { data } = Paginator<CatalogResults>(cards, 20);
     setSelectPage(data[currentPage - 1]);
@@ -31,6 +32,15 @@ const Pagination: FC<PaginationProps> = ({
 
   return (
     <div className={styles.pages}>
+      <span className={styles.page} onClick={() => setCurrentPage(1)}>
+        &lt;&lt;
+      </span>
+      <span
+        className={styles.page}
+        onClick={() => setCurrentPage((prev) => prev - 1)}
+      >
+        &lt;
+      </span>
       {pages.map((page, index) => (
         <span
           className={currentPage === page ? styles.pageCurrent : styles.page}
@@ -40,6 +50,19 @@ const Pagination: FC<PaginationProps> = ({
           {page}
         </span>
       ))}
+      <span
+        className={styles.page}
+        onClick={() =>
+          setCurrentPage((prev) =>
+            pages[pages.length - 1] > prev ? prev + 1 : prev
+          )
+        }
+      >
+        &gt;
+      </span>
+      <span className={styles.page} onClick={() => setCurrentPage(pagesCount)}>
+        &gt;&gt;
+      </span>
     </div>
   );
 };

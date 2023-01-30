@@ -1,11 +1,19 @@
 .page,
 .pageCurrent {
   border: 1px solid lightgray;
+  color: white;
+  opacity: 1;
   border-radius: 100%;
   padding: 4px 9px;
+
   margin: 0 5px;
   cursor: pointer;
 }
+
+.page:hover,
+.pageCurrent:hover {
+  background-color: rgb(175, 174, 174);
+} 
 
 .pageCurrent {
   border: 2px solid gray;

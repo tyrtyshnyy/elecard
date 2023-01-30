@@ -7,11 +7,11 @@ type LayoutProps = {
 };
 const Layout: FC<LayoutProps> = ({ children }) => {
   return (
-    <>
+    <div className={styles.container}>
       <Header />
       <main className={styles.main}>{children}</main>
       <Footer />
-    </>
+    </div>
   );
 };
 

@@ -1,11 +1,4 @@
-import {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState
-} from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { Pagination, ResetDeletedCards, Sorting } from "../..";
 import { CatalogResults } from "../../../types";
 
@@ -35,12 +28,13 @@ const CardsData: FC<CardsDataProps> = ({
     }
   }, [removeCard]);
 
-  const handleCloseCard = useCallback((image: string) => {
+  const handleCloseCard = (image: string) => {
     setRemoveCard((prev) => [...prev, image]);
     setCardsForPagination((prev) =>
       [...prev].filter((card) => card.image !== image)
     );
-  }, []);
+    setCards((prev) => [...prev].filter((card) => card.image !== image));
+  };
 
   const handleIsSort = (state: boolean) => {
     setIsSort(state);
@@ -62,7 +56,7 @@ const CardsData: FC<CardsDataProps> = ({
             category={category}
           />
         ))}
-        <ResetDeletedCards />
+        <ResetDeletedCards removeCard={removeCard} />
       </div>
       <div className={styles.pagination}>
         <Pagination

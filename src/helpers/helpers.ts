@@ -21,19 +21,19 @@ export function Paginator<T>(items: T[], per_page: number) {
 
 export function createPages(
   pages: number[],
-  pagesCount: number,
+  pagesCount: number, //кол-во страниц
   currentPage: number
 ): void {
-  if (pagesCount > 10) {
-    if (currentPage > 5) {
-      for (let i = currentPage - 4; i <= currentPage + 5; i++) {
+  if (pagesCount > 5) {
+    if (currentPage > 3) {
+      for (let i = currentPage - 1; i <= currentPage + 2; i++) {
         pages.push(i);
-        if (i == pagesCount) break;
+        if (i === pagesCount) break;
       }
     } else {
-      for (let i = 1; i <= 10; i++) {
+      for (let i = 1; i <= 4; i++) {
         pages.push(i);
-        if (i == pagesCount) break;
+        if (i === pagesCount) break;
       }
     }
   } else {
