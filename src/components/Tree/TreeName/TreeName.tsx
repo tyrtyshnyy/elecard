@@ -7,7 +7,7 @@ type TreeNameProps = {
   treeData: CatalogResults[];
 };
 
-const TreeName: FC<TreeNameProps> = ({ item, treeData}) => {
+const TreeName: FC<TreeNameProps> = ({ item, treeData }) => {
   const nameFile = treeData.filter((data, index) => {
     if (
       data.image.slice(

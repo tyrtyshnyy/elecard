@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useLayoutEffect, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { createPages, Paginator } from "../../helpers/helpers";
 import { CatalogResults } from "../../types";
 
@@ -8,30 +8,26 @@ type PaginationProps = {
   cards: CatalogResults[];
   setSelectPage: Dispatch<SetStateAction<CatalogResults[]>>;
   isSort: boolean;
-  setIsSort: Dispatch<SetStateAction<boolean>>;
+  handleIsSort: (state: boolean) => void;
 };
 
 const Pagination: FC<PaginationProps> = ({
   cards,
   setSelectPage,
   isSort,
-  setIsSort,
+  handleIsSort,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
-
   const totalCount = 660;
   const pagesCount = Math.ceil(totalCount / 20);
   const pages: number[] = [];
   createPages(pages, pagesCount, currentPage);
 
-  useLayoutEffect(() => {
-    const { data } = Paginator<CatalogResults>(cards, currentPage, 20);
-    setSelectPage(data);
-    console.log(data);
-    
-
-    // setIsSort(false)
-  }, [currentPage]);
+  useEffect(() => {
+    const { data } = Paginator<CatalogResults>(cards, 20);
+    setSelectPage(data[currentPage - 1]);
+    handleIsSort(false);
+  }, [currentPage, isSort]);
 
   return (
     <div className={styles.pages}>

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
 import { CatalogResults } from "../../types";
 import { TreeNode } from "./TreeNode/TreeNode";
@@ -12,9 +13,11 @@ const Tree = () => {
   } = useFetch<CatalogResults[]>(
     "http://contest.elecard.ru/frontend_data/catalog.json"
   );
+  useEffect(() => {
+    document.title = "Древовидный список";
+  }, []);
 
-  
-//@ts-ignore
+  //@ts-ignore
   const hashCategories = treeData.reduce((acc, cur: CatalogResults) => {
     acc[cur.category] = acc[cur.category] ? acc[cur.category] + 1 : 1;
     return acc;

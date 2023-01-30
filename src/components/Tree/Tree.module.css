@@ -1,9 +1,9 @@
 .tree div {
-   margin-left: 10px; 
+  margin-left: 10px;
 }
 
 .tree {
-   position: absolute;
-   top: 64%;
-   left: 9%
+  position: absolute;
+  top: 64%;
+  left: 9%;
 }

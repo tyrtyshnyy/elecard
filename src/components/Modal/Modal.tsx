@@ -1,6 +1,6 @@
 import { Dispatch, FC, SetStateAction } from "react";
 import { createPortal } from "react-dom";
-import { CloseButton } from '../';
+import { CloseButton } from "../";
 import styles from "./Modal.module.css";
 
 type ModalProps = {

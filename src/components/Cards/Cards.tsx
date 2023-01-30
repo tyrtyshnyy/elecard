@@ -1,84 +1,57 @@
-import { FC, useCallback, useEffect, useLayoutEffect, useState } from "react";
-import {
-  LoadingSpinner,
-  Pagination,
-  ResetDeletedCards,
-  Sorting
-} from "../../components";
+import { FC, useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { CatalogResults } from "../../types";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import { CardsData } from "./CardsData/CardsData";
 
-import { Card } from "./Card/Card";
-import styles from "./Cards.module.css";
+type LocalStorageProps = {
+  data: CatalogResults[];
+};
+const LocalStorage: FC<LocalStorageProps> = ({ data }) => {
+  const [filteredCards, setFilteredCards] = useState<CatalogResults[]>(data);
+  const [removeCard, setRemoveCard] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-const Cards: FC = () => {
-  const { data, setData, isLoading, hasError } = useFetch<CatalogResults[]>(
-    "http://contest.elecard.ru/frontend_data/catalog.json"
-  );
-  const [isSort, setIsSort] = useState(false);
-  const [cards, setCards] = useState<CatalogResults[]>([]);
-
-  // console.log(cards);
   useEffect(() => {
-    setCards(data);
-  }, []);
+    document.title = "Карточки";
 
-  useLayoutEffect(() => {
     const removeDB: string[] = JSON.parse(
-      localStorage.getItem("cards") || "[]"
+      window.localStorage.getItem("cards") || "[]"
     );
-
-    removeDB.forEach((img) => {
-      setData((prev) => [...prev].filter((card) => card.image !== img));
-      console.log("del");
-    });
+    if (removeDB) {
+      setRemoveCard(removeDB);
+      removeDB.forEach((img) => {
+        setFilteredCards((prev) =>
+          [...prev].filter((card) => {
+            return card.image !== img;
+          })
+        );
+      });
+    }
+    setIsLoading(false);
   }, []);
-  console.log(cards);
-  const handleCloseCard = useCallback((image: string) => {
-    const removeDB: string[] = JSON.parse(
-      localStorage.getItem("cards") || "[]"
-    );
-
-    setCards((prev) => [...prev].filter((card) => card.image !== image));
-
-    localStorage.setItem("cards", JSON.stringify([...removeDB, image]));
-  }, []);
-
-  if (hasError || !data) {
-    return <h2>Произошла ошибка, попробуйте позже</h2>;
-  }
 
   return !isLoading ? (
-    <>
-      <div className={styles.cardsBlock}>
-        <Sorting setCards={setData} setIsSort={setIsSort} />
-      </div>
-
-      <div className={styles.cards}>
-        {cards.map(({ image, timestamp, filesize, category }) => (
-          <Card
-            key={image}
-            image={image}
-            timestamp={timestamp}
-            handleCloseCard={handleCloseCard}
-            filesize={filesize}
-            category={category}
-          />
-        ))}
-        <ResetDeletedCards />
-      </div>
-      <div className={styles.pagination}>
-        <Pagination
-          setSelectPage={setCards}
-          cards={data}
-          isSort={isSort}
-          setIsSort={setIsSort}
-        />
-      </div>
-    </>
+    <CardsData
+      cards={filteredCards}
+      setCards={setFilteredCards}
+      removeCard={removeCard}
+      setRemoveCard={setRemoveCard}
+    />
   ) : (
     <LoadingSpinner />
   );
+};
+
+const Cards: FC = () => {
+  const { data, isLoading, hasError } = useFetch<CatalogResults[]>(
+    "http://contest.elecard.ru/frontend_data/catalog.json"
+  );
+
+  if (hasError) {
+    return <h2>Произошла ошибка, попробуйте позже</h2>;
+  }
+  return !isLoading ? <LocalStorage data={data} /> : <LoadingSpinner />;
 };
 
 export default Cards;

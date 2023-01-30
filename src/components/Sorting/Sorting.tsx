@@ -1,11 +1,4 @@
-import {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState
-} from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { CatalogResults } from "../../types";
 import styles from "./Sorting.module.css";
 const sort = [
@@ -16,52 +9,53 @@ const sort = [
 ];
 type SortingProps = {
   setCards: Dispatch<SetStateAction<CatalogResults[]>>;
-  setIsSort: Dispatch<SetStateAction<boolean>>;
+  handleIsSort: (state: boolean) => void;
 };
-const Sorting: FC<SortingProps> = ({ setCards, setIsSort }) => {
+const Sorting: FC<SortingProps> = ({ setCards, handleIsSort }) => {
   const [activeRadio, setActiveRadio] = useState<number>(1);
 
-  const sortByCategory = useCallback(() => {
+  const sortByCategory = () => {
     setCards((prev) =>
       [...prev].sort((a, b) => a.category.localeCompare(b.category))
     );
-  }, []);
+  };
 
-  const sortByTimestamp = useCallback(() => {
+  const sortByTimestamp = () => {
     setCards((prev) => [...prev].sort((a, b) => a.timestamp - b.timestamp));
-  }, []);
+  };
 
-  const sortByName = useCallback(() => {
+  const sortByName = () => {
     setCards((prev) =>
-      [...prev].sort((a, b) =>
-        a.image
+      [...prev].sort((a, b) => {
+        return a.image
           .slice(a.image.indexOf("/"))
-          .localeCompare(b.image.slice(a.image.indexOf("/")))
-      )
+          .localeCompare(b.image.slice(b.image.lastIndexOf("/")));
+      })
     );
-  }, []);
+  };
 
-  const sortBySize = useCallback(() => {
+  const sortBySize = () => {
     setCards((prev) => [...prev].sort((a, b) => a.filesize - b.filesize));
-  }, []);
+  };
 
   useEffect(() => {
     switch (activeRadio) {
       case 1:
         sortByCategory();
-        // setIsSort(true);
+        handleIsSort(true);
         break;
       case 2:
         sortByTimestamp();
-        // setIsSort(true);
+        handleIsSort(true);
         break;
       case 3:
         sortByName();
+        handleIsSort(true);
         break;
 
       case 4:
         sortBySize();
-        // setIsSort(true);
+        handleIsSort(true);
         break;
       default:
         break;
@@ -85,7 +79,6 @@ const Sorting: FC<SortingProps> = ({ setCards, setIsSort }) => {
           );
         })}
       </div>
-
     </div>
   );
 };

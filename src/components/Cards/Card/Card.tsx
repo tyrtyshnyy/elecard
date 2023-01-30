@@ -17,7 +17,9 @@ const Card: FC<CatalogResults & CardProps> = ({
   const date: string = timestamp
     ? new Date(timestamp).toLocaleDateString()
     : "";
-  const name = image.slice(image.indexOf("/") + 1, image.lastIndexOf("-"));
+  const name = image
+    ? image.slice(image.indexOf("/") + 1, image.lastIndexOf("-"))
+    : "";
   return (
     <div className={styles.card}>
       <CloseButton

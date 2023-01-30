@@ -1,11 +1,11 @@
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const useFetch = <T>(url: string) => {
   const [data, setData] = useState<T | never[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasError, setHasError] = useState<boolean>(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
@@ -24,12 +24,11 @@ const useFetch = <T>(url: string) => {
         setIsLoading(false);
       }
     };
-    
+
     fetchData();
   }, []);
 
-  return { data, setData, isLoading, hasError };
+  return { data, isLoading, hasError };
 };
-
 
 export default useFetch;

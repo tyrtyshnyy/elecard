@@ -1,11 +1,12 @@
 .sorting {
-    margin-bottom: 50px;
+  margin-bottom: 50px;
 }
 
 .sortingTitle {
-    padding: 10px 0;
+  padding: 10px 0;
 }
 
 .sortingLabel {
-    display: block;
+  display: block;
+  margin-left: 5px;
 }
