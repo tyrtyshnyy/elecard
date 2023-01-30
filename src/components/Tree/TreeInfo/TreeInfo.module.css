@@ -4,7 +4,15 @@
 
 
 .infoImg {
-    width: 50px;
-    height: 30px;
+    width: 80px;
+    height: 50px;
     cursor: pointer;
+    margin-bottom: 8px;
+}
+
+.infoFile {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    line-height: 1.6;
 }

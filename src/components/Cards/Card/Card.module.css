@@ -53,21 +53,14 @@ span:hover {
 
 .cardImage {
   max-width: 450px;
-  height: 300px;
+  max-height: 300px;
+  overflow: hidden;
 }
 img {
-  /* display: block; */
   width: 100%;
   height: 100%;
   border-radius: 9px;
 }
-
-/* .cardDate {
-  margin: 0;
-  display: flex;
-  justify-content: end;
-  padding: 14px 10px 0 0;
-} */
 
 .cardInfo {
   padding: 0 10px;
@@ -78,4 +71,19 @@ img {
 
 .cardDateSize {
   font-size: 12px;
+}
+
+@media (min-width: 768px) {
+  .cardImage {
+    height: 300px;
+  }
+  .card {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 520px) {
+  .card {
+    font-size: 13px;
+  }
 }
